@@ -100,4 +100,26 @@
 <p><a href="http://tech.kakao.com/2017/09/27/kakao-blind-recruitment-round-1/" target="_blank" rel="noopener">해설 보러가기</a></p>
 
 
+다른 사람 풀이를 참고하다가 "%"+n+"s"를 사용하지 않은 다른 풀이 방식을 알게 되었다.
+"%16s"하고 substring으로 잘라주는게 훨씬 빠르다. 
+
+```java
+class Solution {
+  public String[] solution(int n, int[] arr1, int[] arr2) {
+      String[] answer = new String[n];
+      String temp;
+
+      for(int i = 0 ; i < n ; i++){
+          temp = String.format("%16s", Integer.toBinaryString(arr1[i] | arr2[i]));
+          temp = temp.substring(temp.length() - n);
+          temp = temp.replaceAll("1", "#");
+          temp = temp.replaceAll("0", " ");
+          answer[i] = temp;
+      }
+
+      return answer;
+  }
+}
+```
+
 > 출처: 프로그래머스 코딩 테스트 연습, https://school.programmers.co.kr/learn/challenges
