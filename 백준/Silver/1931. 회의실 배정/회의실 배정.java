@@ -15,13 +15,10 @@ public class Main {
             time[i][1] = Integer.parseInt(st.nextToken());	// 종료시간
         }
 
-        Arrays.sort(time, new Comparator<int[]>() {
-            @Override
-            public int compare(int[] a, int[] b) {
-                if(a[1]==b[1]) // 종료시간이 같은 경우 시작시간으로 비교
-                    return a[0]-b[0];
-                return a[1]-b[1];
-            }
+        Arrays.sort(time, (a, b) -> {
+            if (a[1] == b[1]) // 종료시간이 같은 경우 시작시간으로 비교
+                return a[0] - b[0];
+            return a[1] - b[1];
         });
 
         int cnt = 0;
