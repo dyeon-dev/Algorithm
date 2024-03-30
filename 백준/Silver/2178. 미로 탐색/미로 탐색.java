@@ -41,13 +41,13 @@ public class Main {
             int[] now = queue.poll();
 
             for (int i=0; i<4; i++) { // 상하좌우 탐색1
-                int x = now[0] + dx[i];
-                int y = now[1] + dy[i];
-                if (x>=0 && y>=0 && x<N && y<M) { // 좌표유효성검사
-                    if (A[x][y]!=0 && !visited[x][y]) {
-                        visited[x][y] =true;
-                        A[x][y] = A[now[0]][now[1]]+1;
-                        queue.add(new int[] {x,y});
+                int y = now[0] + dy[i];
+                int x = now[1] + dx[i];
+                if (x>=0 && y>=0 && y<N && x<M) { // 좌표유효성검사
+                    if (A[y][x]!=0 && !visited[y][x]) {
+                        visited[y][x] =true;
+                        A[y][x] = A[now[0]][now[1]]+1;
+                        queue.add(new int[] {y,x});
                     }
                 }
             }
