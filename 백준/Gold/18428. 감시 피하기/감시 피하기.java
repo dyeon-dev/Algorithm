@@ -58,18 +58,11 @@ public class Main {
 
     public static void bfs() {
         Queue<Node> q = new LinkedList<>();
-        char[][] copyMap = new char[n][n];
         boolean[][] check = new boolean[n][n];
 
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
-                copyMap[i][j] = map[i][j];
-            }
-        }
-
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                if (copyMap[i][j] == 'T') {
+                if (map[i][j] == 'T') {
                     q.add(new Node(i, j));
                     check[i][j] = true;
                 }
@@ -86,7 +79,7 @@ public class Main {
                 int ny = y + dy[k];
 
                 while(0 <= nx && nx < n && 0 <= ny && ny < n) {
-                    if (copyMap[nx][ny] != 'O') {
+                    if (map[nx][ny] != 'O') {
                         check[nx][ny] = true;
                         nx += dx[k];
                         ny += dy[k];
