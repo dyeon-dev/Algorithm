@@ -17,7 +17,7 @@ class Solution {
             int ans = 0;
             for (int i = 0; i < newArray.length; i++) {
                 sum+=newArray[i];
-                ans=(int)Math.round(sum/8.0);
+                ans=(int)Math.round(sum/(float)newArray.length);
             }
             System.out.println("#"+t+" "+ans);
         }
