@@ -1,20 +1,20 @@
-import java.util.Scanner;
+import java.util.*;
 
-class Solution {
+public class Solution {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        int T = sc.nextInt();
 
-        for (int i=1; i<=T; i++) {
+        int T = sc.nextInt();
+        for(int t = 1; t <= T; t++) {
             String s = sc.next();
-            for (int j = 1; j <= s.length(); j++) {
-                String a = s.substring(0,j);
-                String b = s.substring(j, j+j);
-                if (a.equals(b)) {
-                    System.out.println("#"+i+" "+a.length());
+            int ans = 0;
+            for (int i = 1; i <= s.length(); i++) {
+                if (s.substring(0, i).equals(s.substring(i, i + i))) {
+                    ans=i;
                     break;
                 }
             }
+            System.out.println("#" + t + " "+ans);
         }
     }
 }
