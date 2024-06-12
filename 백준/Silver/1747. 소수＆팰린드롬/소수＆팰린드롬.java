@@ -4,24 +4,29 @@ public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         int n = sc.nextInt();
-        if (n==1) {
-            System.out.println(2);
-            System.exit(0);
+        int[] arr = new int[10000001];
+        for (int i = 2; i < arr.length; i++) {
+            arr[i]=i;
         }
-        for (int i = n; i < 10000001; i++) {
-            if (isPrime(i)&& isPalind(i)) {
-                System.out.println(i);
-                break;
+        arr[0]=arr[1]=2;
+
+        // 에라토스테네스의 체 알고리즘 사용하여 소수 구하기
+        for (int i = 2; i <= Math.sqrt(arr.length); i++) {
+            if (arr[i]!=0) { // i가 소수인 경우
+                for (int j = i*i; j < arr.length; j+=i) {
+                    arr[j]=0;
+                }
             }
         }
-    }
-    public static boolean isPrime(int x) {
-        for (int i = 2; i <= Math.sqrt(x); i++) {
-            if(x%i==0) {
-                return false;
+        while(true) {
+            if(arr[n]!=0) {
+                if (isPalind(arr[n])) {
+                    System.out.println(arr[n]);
+                    break;
+                }
             }
+            n++;
         }
-        return true;
     }
 
     public static boolean isPalind(int x) {
