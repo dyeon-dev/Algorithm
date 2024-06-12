@@ -1,19 +1,25 @@
 import java.util.*;
 
-class Solution {
+public class Solution {
     public int[] solution(int k, int[] score) {
         int[] answer = new int[score.length];
-        
-        List<Integer> rank = new ArrayList<>();
-        
+        int[] rank = new int[k];
+        int size=0;
+
         for (int i = 0; i < score.length; i++) {
-            rank.add(score[i]);
-            
-            if (rank.size() > k) {
-                rank.remove(Collections.min(rank));
+            if (size<k) {
+                rank[size]=score[i];
+                size++;
+                Arrays.sort(rank, 0, size);
             }
-            
-            answer[i] = Collections.min(rank);
+            else {
+                if (score[i]>rank[0]) {
+                    // 점수 업데이트
+                    rank[0]=score[i];
+                    Arrays.sort(rank);
+                }
+            }
+            answer[i]=rank[0];
         }
         return answer;
     }
