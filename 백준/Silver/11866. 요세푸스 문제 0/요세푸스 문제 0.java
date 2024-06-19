@@ -9,16 +9,14 @@ public class Main {
         for (int i = 1; i <= n; i++) {
             q.add(i);
         }
-        StringBuilder sb = new StringBuilder();
-        sb.append('<');
-
+       
+        System.out.print("<");
         while(q.size()>1) {
             for (int i = 1; i < k; i++) {
                 q.add(q.poll());
             }
-            sb.append(q.poll()).append(", ");
+            System.out.print(q.poll()+", ");
         }
-        sb.append(q.poll()).append('>');
-        System.out.print(sb);
+        System.out.println(q.poll()+">");
     }
 }
