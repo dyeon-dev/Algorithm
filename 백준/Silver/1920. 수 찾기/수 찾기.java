@@ -1,38 +1,33 @@
 import java.util.*;
-public class Main {
-    public static int result;
-    public static void main(String[] args) {
+public class Main{
+
+    static int N,M;
+    public static void main(String args[]){
         Scanner sc = new Scanner(System.in);
-        int n = sc.nextInt();
-        int[] A = new int[n];
-
-        for(int i=0;i<n;i++) {
-            A[i] = sc.nextInt();
+        N = sc.nextInt();
+        int[] arr = new int[N];
+        for (int i = 0; i < N; i++) {
+            arr[i] = sc.nextInt();
         }
-        Arrays.sort(A);
+        Arrays.sort(arr);
 
-        int m = sc.nextInt();
+        M = sc.nextInt();
 
-        for (int i = 0; i < m; i++) {
-            boolean find = false;
-            int target = sc.nextInt();
-            // 이진탐색시작
-            int start = 0;
-            int end = A.length-1;
-            while (start<=end) {
-                int midi = (start+end)/2;
-                int midV = A[midi];
-                if (midV>target) {
-                    end=midi-1;
-                } else if(midV<target) {
-                    start=midi+1;
-                } else {
-                    find=true;
+        int[] ans= new int[M];
+        for (int i = 0; i < M; i++) {
+            int t = sc.nextInt();
+            int pl = 0;
+            int pr = arr.length-1;
+            while(pl<=pr) {
+                int mid = (pl + pr) / 2;
+                if (arr[mid] == t) {
+                    ans[i] = 1;
                     break;
                 }
+                else if (arr[mid] < t) pl = mid + 1;
+                else if (arr[mid] > t) pr = mid - 1;
             }
-            if (find) System.out.println(1);
-            else System.out.println(0);
+            System.out.println(ans[i]);
         }
     }
 }
