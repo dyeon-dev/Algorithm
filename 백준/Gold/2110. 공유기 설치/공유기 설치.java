@@ -1,49 +1,38 @@
-import java.util.*;
+    import java.util.Arrays;
+    import java.util.Scanner;
 
-public class Main {
+    class Main {
 
-    public static void main(String[] args) {
-        //  집의 개수(N)와 공유기의 개수(C)를 입력받기
-        Scanner sc = new Scanner(System.in);
-        int n = sc.nextInt();
-        int c = sc.nextInt();
-
-        // 전체 집의 좌표 정보를 입력받기
-        ArrayList<Integer> arr = new ArrayList<>();
-        for (int i = 0; i < n; i++) {
-            arr.add(sc.nextInt());
-        }
-
-        // 이진 탐색을 위해 정렬 수행
-        Collections.sort(arr);
-
-        int start = 1; // 가능한 최소 거리(min gap)
-        int end = arr.get(n - 1) - arr.get(0); // 가능한 최대 거리(max gap)
-        int result = 0;
-
-        while (start <= end) {
-            // mid는 가장 인접한 두 공유기 사이의 거리(gap)을 의미
-            int mid = (start + end) / 2;
-            // 첫째 집에는 무조건 공유기를 설치한다고 가정
-            int value = arr.get(0);
-            int cnt = 1;
-            // 현재의 mid 값을 이용해 공유기를 설치하기
-            for (int i = 1; i < n; i++) { // 앞에서부터 차근차근 설치
-                if (arr.get(i) >= value + mid) {
-                    value = arr.get(i);
-                    cnt += 1;
+        public static void main(String[] args) {
+            Scanner sc = new Scanner(System.in);
+            int N = sc.nextInt(); //도현이의 집
+            int C = sc.nextInt(); // 공유기 개수
+            int[] house = new int[N];
+            int answer = 0;
+            for (int i = 0; i < N; i++) {
+                house[i] = sc.nextInt();
+            }
+            Arrays.sort(house);
+            int left = 1; //최소 길이
+            int right = house[N - 1] - house[0];// 최대 길이
+            while (left <= right) {
+                int mid = (left + right) / 2; //공유기 거리 기준
+                int prevHouse = house[0]; //첫 위치에 설치
+                int count = 1; //공유기 설치 개수
+                for (int i = 0; i < N; i++) {
+                    int distance = house[i] - prevHouse;
+                    if (distance >= mid) { //거리차가 기준보다 이상되야 설치 가능
+                        count++;
+                        prevHouse = house[i];
+                    }
+                }
+                if (count >= C) { //공유기 설치가 더 많이 됬으니 간격을 넓혀서 줄여야함
+                    left = mid + 1;
+                    answer = mid;
+                } else {
+                    right = mid - 1;
                 }
             }
-            // C개 이상의 공유기를 설치할 수 있는 경우, 거리를 증가시키기
-            if (cnt >= c) {
-                start = mid + 1;
-                result = mid; // 최적의 결과를 저장
-            }
-            // C개 이상의 공유기를 설치할 수 없는 경우, 거리를 감소시키기
-            else {
-                end = mid - 1;
-            }
+            System.out.println(answer);
         }
-        System.out.println(result);
     }
-}
