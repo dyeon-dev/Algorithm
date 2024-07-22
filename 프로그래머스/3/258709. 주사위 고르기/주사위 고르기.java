@@ -45,6 +45,7 @@ class Solution {
         arrB = new ArrayList<>();
 
         int a = 0, b = 0;
+         // 주사위 배열에 조합 결과 넣기 
         for (int i = 0; i < n; i++) {
             // A주사위 조합
             if (com.contains(i)) {
@@ -58,7 +59,7 @@ class Solution {
             }
         }
 
-        // 2. 각 주사위 모든 눈금의 합 저장
+        // 2. 구해진 조합에 대해서 가질 수 있는 각 주사위 모든 눈금의 합 저장
         makeArr(0, diceA, 0, arrA);
         makeArr(0, diceB, 0, arrB);
 
@@ -78,15 +79,12 @@ class Solution {
                 int mid = (left + right) / 2;
                 if (arrB.get(mid) < num) {
                     left = mid + 1;
-                    index = Math.max(index, mid); // arrA 합계 num보다 작은 arrB의 최대 인덱스를 찾아 저장
+                 
                 } else {
                     right = mid - 1;
                 }
             }
-            if (index != Integer.MIN_VALUE) {
-                // arrB에서 작은 값의 수를 모두 더함
-                cnt += index + 1; // index+1은 arrB에서 num보다 작은 모든 값의 수를 의미
-            }
+            cnt += left;
         }
         return cnt;
     }
