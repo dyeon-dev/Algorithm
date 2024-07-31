@@ -1,11 +1,8 @@
-import java.io.*;
 import java.util.*;
 
 public class Main {
     static class Node {
-        int x;
-        int y;
-
+        int x, y;
         public Node(int x, int y) {
             this.x = x;
             this.y = y;
@@ -14,94 +11,81 @@ public class Main {
 
     static ArrayList<Node> student = new ArrayList<>();
     static int n;
-    static char[][] map;
-    static final int[] dx = {0, 0, 1, -1};
-    static final int[] dy = {1, -1, 0, 0};
+    static char[][] arr;
 
-    public static void main(String[] args) {
+    public static void main(String args[]) {
         Scanner sc = new Scanner(System.in);
         n = sc.nextInt();
-        map = new char[n][n];
-
+        arr = new char[n][n];
 
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
                 String s = sc.next();
-                map[i][j] = s.charAt(0);
-                if (map[i][j] == 'S') {
+                arr[i][j] = s.charAt(0);
+                if (arr[i][j] == 'S') {
                     student.add(new Node(i, j));
                 }
             }
         }
         dfs(0);
-
         System.out.println("NO");
-
     }
 
-    static void dfs(int wall) {
-        if (wall == 3) {
-            bfs();
+    private static void dfs(int cnt) {
+        if (cnt == 3) { // 장애물 3개 배치 완료
+            if (isSafe()) {
+                System.out.println("YES");
+                System.exit(0);
+            }
             return;
         }
-
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
-                if (map[i][j] == 'X') {
-                    map[i][j] = 'O';
-                    dfs(wall + 1);
-                    map[i][j] = 'X';
+                if (arr[i][j] == 'X') { // 빈 공간일 경우
+                    arr[i][j] = 'O'; // 장애물 배치
+                    dfs(cnt + 1); // 다음 장애물 배치 시도
+                    arr[i][j] = 'X'; // 장애물 제거(백트래킹)
                 }
             }
         }
     }
 
-    public static void bfs() {
-        Queue<Node> q = new LinkedList<>();
-        boolean[][] check = new boolean[n][n];
-
+    private static boolean isSafe() {
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
-                if (map[i][j] == 'T') {
-                    q.add(new Node(i, j));
-                    check[i][j] = true;
-                }
-            }
-        }
-
-        while (!q.isEmpty()) {
-            Node now = q.poll();
-            int x = now.x;
-            int y = now.y;
-
-            for (int k = 0; k < 4; k++) {
-                int nx = x + dx[k];
-                int ny = y + dy[k];
-
-                while(0 <= nx && nx < n && 0 <= ny && ny < n) {
-                    if (map[nx][ny] != 'O') {
-                        check[nx][ny] = true;
-                        nx += dx[k];
-                        ny += dy[k];
-                    }else{
-                        break;
+                // 선생 위치에서
+                if (arr[i][j] == 'T') {
+                    if (seeStudent(i, j)) { // 학생들을 볼 수 있으면
+                        return false; // 안전하지 않음
                     }
                 }
             }
         }
-        if (catchStudent(check)) {
-            System.out.println("YES");
-            System.exit(0);
-        }
+        return true; // 모든 학생이 감시되지 않음
     }
 
-    private static boolean catchStudent(boolean[][] check) {
+    // 선생의 시야를 4가지 방향으로 탐색
+    private static boolean seeStudent(int x, int y) {
+        int[] dx = {0, 0, 1, -1};
+        int[] dy = {1, -1, 0, 0};
 
-        for (Node node : student) {
-            if (check[node.x][node.y] == true) {
-                return false;
+        for (int i = 0; i < 4; i++) {
+            int nx = x;
+            int ny = y;
+            while (true) {
+                nx += dx[i];
+                ny += dy[i];
+                // 범위에서 벗어나거나 장애물을 만나면 해당 방향에서 탐색 종료
+                if (nx < 0 || ny < 0 || nx >= n || ny >= n || arr[nx][ny] == 'O') {
+                    break;
+                }
+                // 학생을 발견함
+                if (arr[nx][ny] == 'S') {
+                    return true;
+                }
             }
         }
-        return true;
+        // 학생을 발견하지 못함 
+        return false;
     }
 }
