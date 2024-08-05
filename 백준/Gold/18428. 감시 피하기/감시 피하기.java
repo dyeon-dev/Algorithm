@@ -27,27 +27,30 @@ public class Main {
                 }
             }
         }
-        dfs(0);
-        System.out.println("NO");
+
+        if(dfs(0)) {
+            System.out.println("YES");
+        } else {
+            System.out.println("NO");
+        }
     }
 
-    private static void dfs(int cnt) {
+    private static boolean dfs(int cnt) {
         if (cnt == 3) { // 장애물 3개 배치 완료
-            if (isSafe()) {
-                System.out.println("YES");
-                System.exit(0);
-            }
-            return;
+            return isSafe();
         }
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
                 if (arr[i][j] == 'X') { // 빈 공간일 경우
                     arr[i][j] = 'O'; // 장애물 배치
-                    dfs(cnt + 1); // 다음 장애물 배치 시도
+                    if(dfs(cnt + 1)){
+                        return true;
+                    } // 다음 장애물 배치 시도
                     arr[i][j] = 'X'; // 장애물 제거(백트래킹)
                 }
             }
         }
+        return false;
     }
 
     private static boolean isSafe() {
@@ -85,7 +88,7 @@ public class Main {
                 }
             }
         }
-        // 학생을 발견하지 못함 
+        // 학생을 발견하지 못함
         return false;
     }
 }
