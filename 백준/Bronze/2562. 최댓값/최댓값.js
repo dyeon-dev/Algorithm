@@ -1,14 +1,8 @@
-const fs = require('fs');
-const input = fs.readFileSync('/dev/stdin').toString().split('\n');
+let fs = require('fs');
+let input = fs.readFileSync('/dev/stdin').toString().split('\n');
 
-let maxIndex = 0;
-let maxValue = 0;
+let a = input.map(x => Number(x));
+let max = Math.max(...a);
 
-for(i=0; i<9; i++) {
-   let data = Number(input[i]);
-  if (maxValue < data) {
-    maxValue = data;
-    maxIndex = i+1;
-  }
-}
-console.log(maxValue, maxIndex)
+console.log(max);
+console.log(a.indexOf(max)+1);
