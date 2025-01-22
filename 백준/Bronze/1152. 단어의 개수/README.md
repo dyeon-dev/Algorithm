@@ -4,7 +4,7 @@
 
 ### 성능 요약
 
-메모리: 30900 KB, 시간: 500 ms
+메모리: 35064 KB, 시간: 160 ms
 
 ### 분류
 
@@ -12,7 +12,7 @@
 
 ### 제출 일자
 
-2024년 2월 3일 17:16:39
+2025년 1월 22일 16:45:42
 
 ### 문제 설명
 
@@ -26,22 +26,3 @@
 
  <p>첫째 줄에 단어의 개수를 출력한다.</p>
 
-나는 Scanner를 사용해서 빈 문자열을 체크해주는 식으로 코드를 짰다.
-
-자바의 StringTokenizer으로 띄어쓰기를 기준으로 단어를 분류하고, 그 분류된 단어들을 토큰을 세는 방식으로 간단하게 카운팅을 할 수도 있다.
-
-```java
-import java.util.Scanner;
-import java.util.StringTokenizer;
-
-public class Main {
-    public static void main(String[] args) {
-
-        Scanner sc = new Scanner(System.in);
-        String s = sc.nextLine();
-
-        StringTokenizer st = new StringTokenizer(s, " ");
-        System.out.println(st.countTokens());
-    }
-}
-```
