@@ -1,15 +1,11 @@
 let fs = require('fs');
 let input = fs.readFileSync('/dev/stdin').toString().split('\n');
-
-let [r, c] = input[0].split(" ").map(Number); // 세로 r, 가로 c
+let [r, c] = input[0].split(" ").map(Number);
 let arr = [];
-for (let i = 1; i <= r; i++) {
-  arr.push(input[i]);
-}
-
+for (let i = 1; i <= r; i++) arr.push(input[i]);
 let visited = new Set(); // 방문한 적 있는 알파벳 집합
-let max = 0; // 최대 깊이
 
+let max = 0;
 let dx = [0, 0, 1, -1];
 let dy = [1, -1, 0, 0];
 
@@ -30,5 +26,5 @@ function dfs(x, y, depth) {
 // 좌측 상단부터 시작
 visited.add(arr[0][0]);
 dfs(0, 0, 1);
-
 console.log(max);
+
