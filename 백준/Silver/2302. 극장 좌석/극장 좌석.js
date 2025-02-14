@@ -11,15 +11,11 @@ let d = new Array(50).fill(0);
 
 d[0]=1;
 d[1]=1;
-d[2]=2;
 
 // 피보나치 수열
-function dp(x) {
-  if(d[x]!=0) return d[x];
-  d[x] = dp(x-1)+dp(x-2);
-  return d[x];
+for(let i = 2; i <= n; i++) {
+    d[i] = d[i-1]+d[i-2];
 }
-
 // VIP 좌석을 기준으로 몇 개씩 묶이는지 확인
 let arr = [];
 let start = 0;
@@ -30,9 +26,9 @@ for (let i = 2; i < m+2; i++) {
 }
 arr.push(n-start);
 
-// 각 묶음의 개수에 대해 DP 테이블 값 가져오기
+// 각 묶음의 가능한 배치 경우의 수 곱하기
 let res = 1;
 for(let x of arr) {
-  res *= dp(x);
+  res *= d[x];
 }
 console.log(res);
