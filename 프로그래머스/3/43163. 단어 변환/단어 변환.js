@@ -6,7 +6,7 @@ function solution(begin, target, words) {
     
     function dfs(cur, visited, cnt) {
         if(cur==target){
-            answer = Math.min(answer, cnt);
+            answer = cnt;
             return;
         }
         for(let i=0; i<words.length; i++) {
