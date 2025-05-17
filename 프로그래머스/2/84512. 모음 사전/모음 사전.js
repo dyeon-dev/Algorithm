@@ -4,23 +4,19 @@ function solution(word) {
     let flag = false;
     let cnt = 0;
     
-    function dfs(str) {
-        if(str.length>5 || flag) return;
-        
-        if(str===word) {
-            answer = cnt;
+    const dfs=(s)=>{
+        if(s.length>5 || flag) return;
+        if(word==s) {
+            answer=cnt;
             flag=true;
             return;
         }
-
-        cnt+=1;
-        
-        for(let i=0; i<5; i++) {
-            dfs(str+alph[i]);
+        cnt++;
+        for(let a of alph) {
+            dfs(s+a);
         }
     }
     
     dfs("");
     return answer;
 }
-
