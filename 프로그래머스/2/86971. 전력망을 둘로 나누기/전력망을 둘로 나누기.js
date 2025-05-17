@@ -32,10 +32,23 @@ function solution(n, wires) {
 
         return cnt;
     };
+    
+    const dfs = (graph, node, visited) => {
+        let cnt=1;
+        visited[node] = true;
+        for(x of graph[node]) {
+            if(!visited[x]) {
+                cnt+=dfs(graph, x, visited)
+            }
+        }
+        return cnt;
+    }
 
     for (let i = 0; i < wires.length; i++) {
         const graph = buildGraph(i);
-        const team1 = bfs(graph, wires[i][0]);
+        const visited = Array(n + 1).fill(false);
+        //const team1 = bfs(graph, wires[i][0]);
+        const team1 = dfs(graph, wires[i][0], visited);
         const team2 = n - team1;
         min = Math.min(min, Math.abs(team1 - team2));
     }
