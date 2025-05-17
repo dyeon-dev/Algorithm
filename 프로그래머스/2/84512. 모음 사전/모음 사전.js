@@ -5,10 +5,10 @@ function solution(word) {
     let cnt = 0;
     
     const dfs=(s)=>{
-        if(s.length>5 || flag) return;
+        if(s.length>5) return;
         if(word==s) {
             answer=cnt;
-            flag=true;
+           // flag=true;
             return;
         }
         cnt++;
