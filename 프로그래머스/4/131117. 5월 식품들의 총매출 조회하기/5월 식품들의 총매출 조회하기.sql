@@ -1,0 +1,5 @@
+select p.PRODUCT_ID, p.PRODUCT_NAME, SUM(p.PRICE*o.AMOUNT) as TOTAL_SALES
+from FOOD_PRODUCT p join FOOD_ORDER o on p.PRODUCT_ID=o.PRODUCT_ID
+where PRODUCE_DATE between '2022-05-01' and '2022-05-31'
+group by p.PRODUCT_ID
+order by TOTAL_SALES desc, p.PRODUCT_ID;
