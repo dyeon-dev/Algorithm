@@ -3,13 +3,12 @@ function solution(s) {
     let word = {}
     
     for(let i=0; i<s.length; i++) {
-        let char = s[i];
-        if(word[char]==undefined) {
+        if(word[s[i]]==undefined) {
             answer.push(-1)
         } else {
-            answer.push(i-word[char])
+            answer.push(i-word[s[i]])
         }
-        word[char]=i
+        word[s[i]]=i;
     }
     return answer;
 }
