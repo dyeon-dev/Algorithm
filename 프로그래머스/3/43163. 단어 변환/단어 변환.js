@@ -1,34 +1,29 @@
 function solution(begin, target, words) {
-    let answer = 1e9;
-    
-    if (!words.includes(target)) return 0; // target이 words에 없으면 변환 불가능
-
-    
-    function dfs(cur, visited, cnt) {
-        if(cur==target){
-            answer = cnt;
-            return;
+    let answer = 0;
+    let visited=[]
+    function dfs(str, depth) {
+        if(str==target) {
+            answer=depth
+            return answer;
         }
         for(let i=0; i<words.length; i++) {
-            // 방문하지 않은 단어이면서 다른 알파벳이 1개일때
-            if(!visited[i] && checkWord(cur, words[i])) {
+            if(!visited[i] && isCheck(words[i], str)) {
                 visited[i]=true;
-                dfs(words[i], visited, cnt+1);
+                dfs(words[i], depth+1);
                 visited[i]=false;
             }
         }
     }
+    dfs(begin, 0)
     
-    function checkWord(cur, word) {
-        let diff=0;
+    return answer;
+}
 
-        for(let i=0; i<cur.length; i++) {
-            if(word[i]!==cur[i]) diff++;
-        }
-
-        return diff==1 ? true : false;
+function isCheck(cur, word) {
+    let cnt=0;
+    for(let i=0; i<cur.length; i++) {
+        if(cur[i]!=word[i]) cnt++;
     }
-    dfs(begin, [], 0)
-    
-    return answer== 1e9 ? 0 : answer;
+    if(cnt==1) return true;
+    return false;
 }
