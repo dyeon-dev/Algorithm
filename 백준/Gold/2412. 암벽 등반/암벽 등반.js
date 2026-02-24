@@ -11,30 +11,34 @@ for(let i=0; i<n; i++) {
     const y = input[idx++];
     position.push([x,y]);
 }
-position.sort((a, b)=> a[1]!==b[1] ? a[1]-b[1] : a[0]-b[0]);
 
-const visited = new Uint8Array(n+1);
-visited.fill(0);
+const pointSet = new Set();
+for(let i=0; i<n; i++) {
+    const [x, y] = position[i]
+    pointSet.add(`${x},${y}`)  // 문자열 키 생성
+}
+
 console.log(bfs());
 
 function bfs() {
-    const queue  = [[0,0,0]];
-    while(queue.length) {
-        const [cx, cy, cd] = queue.shift(); // [현재 x, 현재 y, 이동횟수]
-        if(cy===T) {
-            return cd;
-        }
-        for(let i=0; i<n; i++) {
-            if(visited[i]) continue;
-
-            const [nx, ny] = position[i];
-
-            if(ny>cy+2) break;
-            if(ny<cy-2) continue;
-
-            if(Math.abs(nx-cx) <=2) {
-                queue.push([nx,ny,cd+1]);
-                visited[i] = 1;
+    const queue = [[0,0,0]];
+    let head=0;
+    
+    while(head<queue.length) {
+        const [cx, cy, cd] = queue[head++];
+        if(cy===T) return cd;
+         // 현재 위치에서 이동 가능한 모든 좌표(25개 조합)를 직접 생성
+        for(let nx=cx-2; nx<=cx+2; nx++) {
+            for(let ny=cy-2; ny<=cy+2; ny++) {
+                if(nx < 0 || ny < 0) continue;
+                
+                const key = `${nx},${ny}`;
+                // 해당 좌표에 홈이 있는지 O(1)로 확인
+                if(pointSet.has(key)) {
+                   // 밟은 홈은 리스트에서 즉시 제거 (방문 처리와 동일)
+                   pointSet.delete(key);
+                   queue.push([nx, ny, cd+1]);
+                }
             }
         }
     }
