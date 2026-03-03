@@ -1,31 +1,30 @@
-let fs = require('fs');
-let input = fs.readFileSync('/dev/stdin').toString().split('\n');
-// 고른 수열은 오름차순이어야 한다. => 순서가 정해져있다는 의미 (1,2,3과 3,2,1은 같음)=> 조합
-let [n, m] = input[0].split(" ").map(Number);
-let arr = []; // 조합을 계산하고자하는 원소가 담긴 배열
-for (let i = 1; i <= n; i++) arr.push(i);
-let visited = new Array(n).fill(false);
-let selected = []; // 현재 조합에 포함된 원소
-let ans = "";
+const filePath = process.platform === "linux" ? "/dev/stdin" : "./input.txt";
+const input = require("fs").readFileSync(filePath).toString().trim().split(/\s+/);
 
-combination(0, 0)
+let idx = 0;
+const n = Number(input[idx++]); // 4
+const m = Number(input[idx++]); // 2
+const selected = []; 
+let result = "";
 
-function combination(depth, start) {
-	if (depth==m) {
-		let result = [] // 조합 결과 저장 테이블
-		for (let i of selected) result.push(arr[i])
-		for (let x of result) ans += x+" "
-        ans += '\n'
-		return;
-	}
-	
-	for (let i = start; i < arr.length; i++) {
-		if(visited[i]) continue;
-		selected.push(i) // 현재 원소 선택
-		visited[i]=true // 현재 원소 방문처리
-		combination(depth+1, i+1); // 재귀함수 호출 시 다음 인덱스 넣기
-		selected.pop() // 현재 원소 선택 취소
-		visited[i]=false;
-		}
+// 15650번은 1부터 n까지의 숫자를 사용하므로 별도의 입력 배열이 필요 없습니다.
+// 만약 15654번처럼 입력값이 따로 주어진다면 아래처럼 정렬 후 사용하세요.
+// const arr = input.slice(2).map(Number).sort((a, b) => a - b);
+
+function dfs(depth, start) {
+    if (depth === m) {
+        // 인덱스가 아니라 숫자 자체를 넣었다면 바로 join 가능합니다.
+        result += selected.join(" ") + "\n";
+        return;
+    }
+    
+    for (let i = start; i <= n; i++) {
+        selected.push(i); // 숫자 i를 직접 넣음
+        dfs(depth + 1, i + 1); // 다음 숫자는 현재 숫자보다 커야 함 (i+1)
+        selected.pop();
+    }
 }
-console.log(ans)
+
+dfs(0, 1); 
+
+console.log(result);
