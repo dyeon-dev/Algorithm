@@ -1,8 +1,11 @@
-let fs = require('fs');
-let input = fs.readFileSync('/dev/stdin').toString().split('\n');
-let [n, m] = input[0].split(" ").map(Number);
-let arr = new Array(m);
-let visited = new Array(n).fill(false);
+const filePath = process.platform === "linux" ? "/dev/stdin" : "./input.txt";
+const input = require("fs").readFileSync(filePath).toString().trim().split(/\s+/);
+
+let idx = 0;
+const n = input[idx++];
+const m = input[idx++];
+const arr = [];
+const visited = new Array(n).fill(false);
 
 dfs(0);
 
@@ -11,6 +14,7 @@ function dfs(depth) {
         console.log(arr.join(" "));
         return;
     }
+    
     for(let i=1; i<=n; i++) {
         if(!visited[i]) {
             visited[i]=true;
@@ -19,4 +23,5 @@ function dfs(depth) {
             visited[i]=false;
         }
     }
+
 }
