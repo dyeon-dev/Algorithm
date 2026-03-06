@@ -1,32 +1,34 @@
-let fs = require('fs');
-let input = fs.readFileSync('/dev/stdin').toString().split('\n');
-for (let t = 0; t < input.length; t++) {
-  let arr = input[t].split(" ").map(Number);
-  if (arr[0] == 0) break;
-  let k = arr[0];
-  let s = arr.splice(1);
-  let visited = new Array(k).fill(false);
-  let result = [];
-  let answer = "";
+const filePath = process.platform === "linux" ? "/dev/stdin" : "./input.txt";
+const input = require("fs").readFileSync(filePath).toString().trim().split(/\s+/).map(Number);
 
-  function dfs(depth, start) {
-    if (depth == 6) {
-      for (x of result) {
-        answer += s[x] + " ";
-      }
-      answer += "\n";
-    }
+let idx = 0;
+const totalResult = [];
 
-    for (let i = start; i < k; i++) {
-      if (!visited[i]) {
-        visited[i] = true;
-        result.push(i);
-        dfs(depth + 1, i + 1);
-        visited[i] = false;
-        result.pop();
-      }
+while(idx < input.length) {
+    const k = input[idx++];
+    const S = [];
+    if(k==0) break;
+    for(let i=0; i<k; i++) {
+        S.push(input[idx++]);
     }
-  }
-  dfs(0, 0);
-  console.log(answer);
+    const result = [];
+    const selected = [];
+
+    dfsCombination(0, 0);
+    // 중복 없는 조합
+    function dfsCombination(depth, start) {
+        if(depth==6) {
+            result.push(selected.join(" "));
+            return;
+        }
+        for(let i = start; i < k; i++) {
+            selected.push(S[i]);
+            dfsCombination(depth+1, i+1);
+            selected.pop();
+        }
+    }  
+    totalResult.push(result.join("\n"));
 }
+
+
+console.log(totalResult.join("\n\n"));
