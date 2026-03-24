@@ -36,7 +36,7 @@ const results = [];
 for(let i=0; i<K; i++) {
     const marble = weight[i];
 
-    if(marble <= MAX_WEIGHT && dp[N][marble]) {
+    if(dp[N][marble]) {
         results.push("Y")
     } else {
         results.push("N")
