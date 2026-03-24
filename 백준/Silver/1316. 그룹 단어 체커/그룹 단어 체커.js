@@ -1,31 +1,28 @@
-let fs = require('fs');
-let input = fs.readFileSync('/dev/stdin').toString().split('\n');
+const filePath = process.platform === "linux" ? "/dev/stdin" : "./input.txt";
+const input = require("fs").readFileSync(filePath).toString().trim().split(/\s+/);
 
-let a = Number(input[0]);
+let idx = 0;
 
-let string = "";
-let ans = 0;
+const N = Number(input[idx++]); // 단어 개수
+const words = []; // 단어
+for(let i=0; i<N; i++) {
+    words.push(input[idx++]);
+}
 
-function check(data) {
-  let setData = new Set(data[0]);
-  for (let i = 0; i < data.length; i++) {
-    // 이전문자와 다르고
-    if (data[i] != data[i + 1]) {
-      // 이미 등장한 적 있는 알파벳이라면 false
-      if (setData.has(data[i + 1])) {
-        return false;
-      } else {
-        setData.add(data[i + 1]);
-      }
+let cnt = 0;
+for(let i=0; i<N; i++) {
+    let flag = true;
+    let prev = "";
+    const check = new Set();
+    for(let w of words[i]) {
+        if(!check.has(w)) {
+            check.add(w);
+            prev = w;
+        } else if (prev!==w){
+            flag = false;
+        }
     }
-  }
-  return true;
+    if(flag) cnt++;
 }
 
-for (let i = 1; i <= a; i++) {
-  string = input[i];
-  if (check(string)) {
-    ans++;
-  }
-}
-console.log(ans);
+console.log(cnt);
