@@ -26,7 +26,7 @@ for(let i=1; i<=N; i++) {
     for(let j=0; j<=MAX_WEIGHT; j++) {
         if(dp[i-1][j]) {
             dp[i][j]=true; // 추를 안쓴다 (이전 상태 그대로)
-            if(j+now <= MAX_WEIGHT) dp[i][j+now]=true; // 추를 구슬 반대에 높는다 (더하기)
+            dp[i][j+now]=true; // 추를 구슬 반대에 높는다 (더하기)
             dp[i][Math.abs(j-now)]=true; // 추를 구슬 쪽에 놓는다 (빼기)
         }
     }
