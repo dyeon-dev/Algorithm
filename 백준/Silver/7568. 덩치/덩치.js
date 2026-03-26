@@ -1,20 +1,28 @@
-let fs = require('fs');
-let input = fs.readFileSync('/dev/stdin').toString().split('\n');
+const filePath = process.platform === "linux" ? "/dev/stdin" : "./input.txt";
+const input = require("fs").readFileSync(filePath).toString().trim().split(/\s+/);
 
-let n = Number(input[0]);
-let arr = [];
-let res = [];
+let idx = 0;
 
-for (let i = 1; i <= n; i++) {
-  let [x, y] = input[i].split(" ").map(Number);
-  arr.push([x, y]);
+let N = Number(input[idx++]);
+const arr = [];
+for(let i=0; i<N; i++) {
+    const w = Number(input[idx++]);
+    const h = Number(input[idx++]);
+    arr.push([w, h]);
 }
 
-for(let i=0; i<n; i++) {
-    let cnt=1;
-    for(let j=0; j<n; j++) {
-        if(arr[i][0]<arr[j][0] && arr[i][1]<arr[j][1]) cnt++;
+const res = [];
+
+for(let i=0; i<N; i++) {
+    let rank=1;
+    for(let j=0; j<N; j++) {
+        if(i==j) continue;
+
+        const [w, h] = arr[i];
+        const [otherW, otherH] = arr[j];
+
+        if(w<otherW && h<otherH) rank++;
     }
-    res.push(cnt);
+    res.push(rank)
 }
 console.log(res.join(" "))
