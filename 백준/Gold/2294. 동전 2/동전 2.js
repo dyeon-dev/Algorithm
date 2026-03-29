@@ -1,30 +1,33 @@
 const filePath = process.platform === "linux" ? "/dev/stdin" : "./input.txt";
-const input = require("fs").readFileSync(filePath).toString().trim().split(/\s+/).map(Number);
+const input = require("fs").readFileSync(filePath).toString().trim().split(/\s+/);
 
 let idx = 0;
 
-const n =  input[idx++];
-const k =  input[idx++];
+const N = Number(input[idx++]);
+const K = Number(input[idx++]);
 const coins = [];
+for(let i=0; i<N; i++) {
+    coins.push(Number(input[idx++]))
+}
+const dp = Array.from({ length: N+1 }, ()=>new Array(K+1).fill(Infinity));
 
-for(let i=0; i<n; i++) {
-    coins.push(input[idx++]);
+// 0원을 만드는 방법은 0개
+for(let i=0; i<=N; i++) {
+    dp[i][0]=0;
 }
 
-const dp = new Array(k+1).fill(Infinity);
-dp[0]=0;
-
-for(let coin of coins) {
-    for(let j=1; j<=k; j++) {
-        if(j>=coin) {
-            dp[j]=Math.min(dp[j], dp[j-coin]+1);
+for(let i=1; i<=N; i++) {
+    const c = coins[i-1];
+    for(let j=1; j<=K; j++) {
+        // 1. 일단 이전 동전까지만 사용해서 만든 최솟값을 그대로 가져옴
+        dp[i][j]=dp[i-1][j];
+        
+		// 2. 현재 동전(c)을 추가로 사용할 수 있다면 비교해서 갱신
+        if(j>=c) {
+            dp[i][j]=Math.min(dp[i][j-c]+1, dp[i][j]);
         }
     }
 }
 
-let ans = dp[k];
-if(ans==Infinity) {
-    console.log(-1);
-} else {
-    console.log(ans);
-}
+const ans = dp[N][K];
+console.log(ans==Infinity?-1 : ans);
