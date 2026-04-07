@@ -1,47 +1,27 @@
-let fs = require('fs');
-let input = fs.readFileSync('/dev/stdin').toString().split('\n');
+const filePath = process.platform === "linux" ? "/dev/stdin" : "./input.txt";
+const input = require("fs").readFileSync(filePath).toString().trim().split(/\s+/);
 
-class Queue {
-    constructor() {
-        this.items = {};
-        this.headIndex=0;
-        this.tailIndex=0;
-    }
-    enqueue(item) {
-        this.items[this.tailIndex] = item;
-        this.tailIndex++;
-    }
-    dequeue() {
-        const item = this.items[this.headIndex];
-        delete this.items[this.headIndex];
-        this.headIndex++;
-        return item;
-    }
-    getLength() {
-        return this.tailIndex - this.headIndex;
-    }
-}
+let idx = 0;
 
-const MAX = 100001;
-let [n, k] = input[0].split(" ").map(Number);
-let visited = new Array(MAX).fill(0);
+const N = Number(input[idx++]); // 수빈
+const K = Number(input[idx++]); // 동생
 
-function bfs(){
-    let queue = new Queue();
-    queue.enqueue(n);
-    
-    while(queue.getLength()!==0) {
-        let cur = queue.dequeue();
-        if(cur==k) return visited[cur];
+const visited = Array(1000001).fill(0);
+
+function bfs() {
+    const q = [N];
+    while(q.length) {
+        const cur = q.shift();
+        
+        if(cur==K) return visited[cur];
         
         for(let next of [cur-1, cur+1, cur*2]) {
-            if(next<0 || next>=MAX) continue;
-            
             if(visited[next]==0) {
                 visited[next]=visited[cur]+1;
-                queue.enqueue(next);
+                q.push(next);
             }
         }
     }
 }
+
 console.log(bfs());
