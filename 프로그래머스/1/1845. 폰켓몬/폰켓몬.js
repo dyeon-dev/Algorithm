@@ -1,4 +1,13 @@
 function solution(nums) {
-    let arr = [...new Set(nums)];
-    return arr.length >= nums.length/2 ? nums.length/2: arr.length
+    const pick = nums.length/2;
+    const s = new Set();
+    for(let n of nums) {
+        if(!s.has(n) && s.size<pick) {
+            s.add(n);
+        } else if(s.size<pick) {
+            s.add(n);
+        }
+        
+    }
+    return s.size;
 }
